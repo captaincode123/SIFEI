@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="intermediate_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\intermediate_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="input_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\input_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="output_clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\output_clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="inspectionpane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\inspectionpane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tl_IgnoreView_Empty" xml:space="preserve">
+    <value>Keine ignorierten Befunde</value>
+    <comment>Text to be shown when no ignored findings are there</comment>
+  </data>
+  <data name="tl_IgnoreView_InList" xml:space="preserve">
+    <value>Befund(e) in der Liste</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_AutomaticScansCheckbox" xml:space="preserve">
+    <value>Automatisch prüfen</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_AutomaticScansCheckboxTooltip" xml:space="preserve">
+    <value>Wenn aktiviert, wird die Prüfung automatisch nach bestimmten Aktionen (z.B. Speichern, Formeln ändern etc.) durchgeführt</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_PolicyConfigurationButton" xml:space="preserve">
+    <value>Regeln konfigurieren</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_PolicyConfigurationButtonTooltip" xml:space="preserve">
+    <value>Öffnet den Dialog, in dem die Regeln konfiguriert werden können.</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_ScanButton" xml:space="preserve">
+    <value>Prüfen</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_ScanButtonTooltip" xml:space="preserve">
+    <value>Prüft die aktuelle Arbeitsmappe bezüglich der Einhaltung aller aktivierten Regeln</value>
+  </data>
+  <data name="tl_Ribbon_AreaScan_Title" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="tl_Ribbon_Title" xml:space="preserve">
+    <value>INSPEKTION</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_CancelButton" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_CancelButtonTolltip" xml:space="preserve">
+    <value>Verwirft alle Änderungen am aktuellen Szenario</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_NewButton" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_NewButtonTooltip" xml:space="preserve">
+    <value>Erstellt ein neues Szenario</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_SaveButton" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_SaveButtonTooltip" xml:space="preserve">
+    <value>Speichert das aktuelle Szenario</value>
+  </data>
+  <data name="tl_Ribbon_AreaScenario_Title" xml:space="preserve">
+    <value>Szenario</value>
+  </data>
+  <data name="tl_Ribbon_AreaView_PaneButton" xml:space="preserve">
+    <value>Seitenleiste</value>
+  </data>
+  <data name="tl_Ribbon_AreaView_PaneButtonTooltip" xml:space="preserve">
+    <value>Öffnet bzw. schließt eine Seitenleiste, die Befunde, festgelegte Zellen und mehr anzeigt.</value>
+  </data>
+  <data name="tl_Ribbon_AreaView_ResetButton" xml:space="preserve">
+    <value>Befundmarker entfernen</value>
+  </data>
+  <data name="tl_Ribbon_AreaView_ResetButtonTooltip" xml:space="preserve">
+    <value>Entfernt alle Befundmarkierungen in der Hauptansicht</value>
+  </data>
+  <data name="tl_Ribbon_AreaView_Title" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_Inputcell" xml:space="preserve">
+    <value>Eingabezelle</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_InputcellTooltip" xml:space="preserve">
+    <value>Klicken um die aktuelle Zelle als Eingabezelle festzulegen. Diese Schaltfläche leuchtet auch auf, wenn sie eine bereits festgelegte Zelle anwählen.</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_Intermediatecell" xml:space="preserve">
+    <value>Zwischenergebniszelle</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_IntermediatecellTooltip" xml:space="preserve">
+    <value>Klicken um die aktuelle Zelle als Zwischenergebniszelle festzulegen. Diese Schaltfläche leuchtet auch auf, wenn sie eine bereits festgelegte Zelle anwählen.</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_Resultcell" xml:space="preserve">
+    <value>Ergebniszelle</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_ResultcellTooltip" xml:space="preserve">
+    <value>Klicken um die aktuelle Zelle als Ergebniszelle festzulegen. Diese Schaltfläche leuchtet auch auf, wenn sie eine bereits festgelegte Zelle anwählen.</value>
+  </data>
+  <data name="tl_Ribbon_AreaDefine_Title" xml:space="preserve">
+    <value>Zellen festlegen</value>
+  </data>
+  <data name="tl_Ribbon_AreaMiscellaneous_GlobalSettingsButton" xml:space="preserve">
+    <value>Globale Einstellungen</value>
+  </data>
+  <data name="tl_Ribbon_AreaMiscellaneous_Title" xml:space="preserve">
+    <value>Sonstiges</value>
+  </data>
+  <data name="DebugReadWriteErrorPre_MessageBoxText1" xml:space="preserve">
+    <value>Konnte Debug-Datei nicht erstellen, prüfen Sie, dass Sie Schreibrechte für</value>
+  </data>
+  <data name="DebugReadWriteErrorSuff_MessageBoxText" xml:space="preserve">
+    <value>, oder erstellen Sie sie selbst.</value>
+  </data>
+  <data name="DebugReadWriteErrorSuf_MessageBoxText" xml:space="preserve">
+    <value>, oder erstellen Sie sie selbst.</value>
+  </data>
+  <data name="DebugReadWriteError_MessageBoxText" xml:space="preserve">
+    <value>Konnte Debug-Datei nicht erstellen, prüfen Sie, dass Sie Schreibrechte für</value>
+  </data>
+  <data name="DebugReadWriteError_MessageBoxTitle1" xml:space="preserve">
+    <value>Debug-Datei Fehler</value>
+  </data>
+  <data name="GlobalSettingsDialog_B_VerifySifPath_Click_SIF_or_JRE_not_installed" xml:space="preserve">
+    <value>SIF oder JRE nicht installiert</value>
+  </data>
+  <data name="NoJreSifInstallationError_MessageBoxText" xml:space="preserve">
+    <value>Bitte installieren Sie die Java-Version von SIF in den gewählten Pfad oder geben Sie einen anderen Pfad an und fügen sie die JRE der PATH_Variable zu, nachdem Sie sie installiert haben.</value>
+  </data>
+  <data name="NoJreSifInstallationError_MessageBoxTitle" xml:space="preserve">
+    <value>SIF oder JRE nicht installiert</value>
+  </data>
+  <data name="NoMonoSifInstallaionError_MessageBoxText" xml:space="preserve">
+    <value>Bitte installieren Sie die .NET-Version von SIF in dem gewählten Verzeichnis oder geben Sie einen anderen Pfad an und installieren Sie Mono und fügen es Ihrer PATH-umgebungsvariable hinzu oder wählen Sie dessen Verzeichnis über "Durchsuchen..." aus, wenn Sie nicht das .NET-Framework verwenden wollen und installieren Sie die Assemblies von IKVM in ihrem Assembly-Cache.</value>
+  </data>
+  <data name="NoMonoSifInstallationError_MessageBoxTitle" xml:space="preserve">
+    <value>SIF or Mono Runtime Environment not installed</value>
+  </data>
+  <data name="tl_CellErrorInfo_PossibleSolution" xml:space="preserve">
+    <value>Mögliche Behebung</value>
+  </data>
+  <data name="tl_CellErrorInfo_Background" xml:space="preserve">
+    <value>Hintergrund</value>
+  </data>
+  <data name="tl_ViolationTemplate_Background" xml:space="preserve">
+    <value>Hintergrund:</value>
+  </data>
+  <data name="tl_ViolationTemplate_Description" xml:space="preserve">
+    <value>Beschreibung:</value>
+  </data>
+  <data name="tl_ViolationTemplate_FirstOccurence" xml:space="preserve">
+    <value>Erster Fund:</value>
+  </data>
+  <data name="tl_ViolationView_Ignore" xml:space="preserve">
+    <value>ignorieren</value>
+  </data>
+  <data name="tl_ViolationView_Later" xml:space="preserve">
+    <value>später</value>
+  </data>
+  <data name="tl_ViolationTemplate_LessDetails" xml:space="preserve">
+    <value>Weniger Details</value>
+  </data>
+  <data name="tl_ViolationTemplate_MoreDetails" xml:space="preserve">
+    <value>Mehr Details</value>
+  </data>
+  <data name="tl_ViolationTemplate_PossibleSolution" xml:space="preserve">
+    <value>Mögliche Lösung</value>
+  </data>
+  <data name="tl_ViolationTemplate_Type" xml:space="preserve">
+    <value>Typ:</value>
+  </data>
+  <data name="tl_ViolationView_Footer" xml:space="preserve">
+    <value>Befund(e) in dieser Liste</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Button_Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Button_Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Label_Always" xml:space="preserve">
+    <value>immer</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Label_Manual" xml:space="preserve">
+    <value>nur manuell</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Label_ThousandSeparators" xml:space="preserve">
+    <value>Nachfragen, ob Tausender-Trennzeichen beabsichtigt sind</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_CellsWithErrors" xml:space="preserve">
+    <value>Zellen mit #Fehlern</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_Constants" xml:space="preserve">
+    <value>Konstanten in Formeln</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_FormulaComplexity" xml:space="preserve">
+    <value>Komplexe Formeln</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_NonConsideredConstants" xml:space="preserve">
+    <value>Unberücksichtigte Konstanten</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_OneAmongOthers" xml:space="preserve">
+    <value>Einer unter anderen</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_ReadingDirection" xml:space="preserve">
+    <value>Leserichtung</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_ReferencesToBlankCells" xml:space="preserve">
+    <value>Verweise auf leere Zellen</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_SameMultipleRefs" xml:space="preserve">
+    <value>Gleiche Verweise hintereinander</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_StringDistance" xml:space="preserve">
+    <value>Entfernung zwischen Zeichenketten</value>
+  </data>
+  <data name="tl_PolicyConfiguration_Rule_StringDistanceExtra" xml:space="preserve">
+    <value>Maximaler Abstand:</value>
+  </data>
+  <data name="tl_PolicyConfiguration_WindowTitle" xml:space="preserve">
+    <value>Regeln konfigurieren</value>
+  </data>
+  <data name="tl_Ribbon_AreaMiscellaneous_ShowSanity" xml:space="preserve">
+    <value>Plausi-Steuerung anzeigen</value>
+  </data>
+  <data name="tl_NewScenarioDialog_DefaultAnswer" xml:space="preserve">
+    <value>Unbenanntes neues Szenario</value>
+  </data>
+  <data name="tl_NewScenarioDialog_Question" xml:space="preserve">
+    <value>Bitte geben Sie dem neuen Szenario einen Namen</value>
+  </data>
+  <data name="tl_NewScenarioDialog_Title" xml:space="preserve">
+    <value>Neues Szenario...</value>
+  </data>
+  <data name="tl_Ribbon_MessageNoPolicies" xml:space="preserve">
+    <value>Es sind keine Regeln für die Prüfung aktiviert und keine Szenarien vorhanden. Aktivieren Sie bitte mindestens eine Regel oder erstellen Sie ein Szenario und versuchen Sie es erneut.</value>
+  </data>
+  <data name="tl_Ribbon_MessageNoPolicies_Title" xml:space="preserve">
+    <value>Prüfung nicht möglich.</value>
+  </data>
+  <data name="tl_LaterView_Empty" xml:space="preserve">
+    <value>Keine für später markierten Befunde</value>
+  </data>
+  <data name="tl_OpenView_Empty" xml:space="preserve">
+    <value>Keine offenen Befunde</value>
+  </data>
+  <data name="tl_SharedPane_Archived" xml:space="preserve">
+    <value>Archiviert</value>
+  </data>
+  <data name="tl_SharedPane_Cells" xml:space="preserve">
+    <value>Markierte Zellen</value>
+  </data>
+  <data name="tl_SharedPane_Ignored" xml:space="preserve">
+    <value>Ignoriert</value>
+  </data>
+  <data name="tl_SharedPane_Later" xml:space="preserve">
+    <value>Später</value>
+  </data>
+  <data name="tl_SharedPane_Open" xml:space="preserve">
+    <value>Offen</value>
+  </data>
+  <data name="tl_SharedPane_Scenarios" xml:space="preserve">
+    <value>Szenarien</value>
+  </data>
+  <data name="tl_SolvedView_Empty" xml:space="preserve">
+    <value>Keine gelösten Befunde archiviert</value>
+  </data>
+  <data name="tl_ScenarioPane_DeleteConfirmQuestion" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie folgendes Szenario löschen möchten</value>
+  </data>
+  <data name="tl_ScenarioPane_DeleteConfirmQuestionTitle" xml:space="preserve">
+    <value>Szenario löschen</value>
+  </data>
+  <data name="tl_ScenarioPane_DeleteScenario" xml:space="preserve">
+    <value>Szenario löschen</value>
+  </data>
+  <data name="tl_ScenarioPane_DeleteScenarioTooltip" xml:space="preserve">
+    <value>Löscht dieses Szenario</value>
+  </data>
+  <data name="tl_Ribbon_MessageNoScansInScnearioMode" xml:space="preserve">
+    <value>Sie können keine Prüfung starten, während Sie ein Szenario bearbeiten. Speichern oder verwerfen Sie das Szenario und versuchen Sie es erneut.</value>
+  </data>
+  <data name="tl_Ribbon_MessageNoScansInScnearioModeTitle" xml:space="preserve">
+    <value>Prüfung derzeit nicht möglich</value>
+  </data>
+  <data name="tl_ScenarioPane_NoScenarios" xml:space="preserve">
+    <value>Keine Szenarien. Bitte markieren Sie Zellen und erstellen Sie ein neues Szenario, um es hier zu sehen.</value>
+  </data>
+  <data name="tl_ProcessingScan" xml:space="preserve">
+    <value>Prüfung wird durchgeführt</value>
+  </data>
+  <data name="tl_Scan_successful" xml:space="preserve">
+    <value>Erfolgreiche Prüfung durchgeführt</value>
+  </data>
+  <data name="tl_Scan_unsuccessful" xml:space="preserve">
+    <value>Prüfung konnte nicht erfolgreich beendet werden</value>
+  </data>
+  <data name="tl_NoScanPossible" xml:space="preserve">
+    <value>Keine Prüfung möglich</value>
+  </data>
+  <data name="tl_ScenarioPane_EditScenarioTooltip" xml:space="preserve">
+    <value>Öffnet ein neues Fenster um das Szenario zu bearbeiten</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DeleteData" xml:space="preserve">
+    <value>Zelle löschen</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_SaveData" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DeleteDataTooltip" xml:space="preserve">
+    <value>Ausgewählte Zelle löschen</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DiscardData" xml:space="preserve">
+    <value>Verwerfen</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DiscardDataTooltip" xml:space="preserve">
+    <value>Verwirft die vorgenommen Änderungen im Szenario</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_SaveDataTooltip" xml:space="preserve">
+    <value>Speichert die Änderungen im geöffnete Szenario</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DiscardDataMessageBox" xml:space="preserve">
+    <value>Sind sie sicher, dass sie Ihre Änderungen verwerfen wollen?</value>
+  </data>
+  <data name="tl_ScenarioDetailPane_DiscardDataMessageBoxTitle" xml:space="preserve">
+    <value>Änderungen verwerfen</value>
+  </data>
+  <data name="tl_Load_Failed" xml:space="preserve">
+    <value>Die Folgenden Teile konnten nicht geladen werden:</value>
+  </data>
+  <data name="tl_Load_Failed_Title" xml:space="preserve">
+    <value>Laden aus dem Workbook nicht geklappt</value>
+  </data>
+  <data name="tl_MessageBox_Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="tl_No_Java_Enviroment" xml:space="preserve">
+    <value>Java Runtime wurde nicht gefunden!
+Bitte stellen sie sicher, dass die Java Runtime in der Version 1.7 oder höher installiert ist und in der PATH Variable gesetzt wurde</value>
+  </data>
+  <data name="tl_Number_Format" xml:space="preserve">
+    <value>Nummernformat</value>
+  </data>
+  <data name="tl_Path_install" xml:space="preserve">
+    <value>Bitte installieren sie das Spreadsheet Inspection Framework und starten sie Excel neu.</value>
+  </data>
+  <data name="tl_Path_missing" xml:space="preserve">
+    <value>Das Spreadsheet Inspection Framework wurde im folgenden Ordner nicht gefunden:
+</value>
+  </data>
+  <data name="tl_PolicyConfiguration_No_Constants" xml:space="preserve">
+    <value>Keine Konstanten inFormeln</value>
+  </data>
+  <data name="tl_Scan_failed" xml:space="preserve">
+    <value>Der Test der aktuellen Datei ist fehlgeschlagen
+</value>
+  </data>
+  <data name="tl_Scan_needingsavetitle" xml:space="preserve">
+    <value>Prüfung abgebrochen</value>
+  </data>
+  <data name="tl_Scan_needssave" xml:space="preserve">
+    <value>Die Datei muss vor der Prüfung gespeichert sein. 
+Prüfung wir abgebrochen</value>
+  </data>
+  <data name="tl_Scenario_CantCreate" xml:space="preserve">
+    <value>Kann Szenario nicht erstellen.</value>
+  </data>
+  <data name="tl_Scenario_MinOneInput" xml:space="preserve">
+    <value>Ein Szenario braucht mindestens eine Eingabezelle.</value>
+  </data>
+  <data name="tl_Scenario_MinOneOutput" xml:space="preserve">
+    <value>Ein Szenario braucht mindestens eine Eingabezelle.</value>
+  </data>
+  <data name="tl_Scenario_Notallcellsfilled" xml:space="preserve">
+    <value>Sie haben nicht alle von Ihnen zuvor markierten Zellen (Eingabe-, Zwischenergebnis- und Ausgabezellen) befüllt.
+Bite befüllen Sie die fehlenden Zellen oder brechen Sie die Szenario-Erstellung ab, entfernen Sie unnötige Markierungen und versuchen Sie es erneut.</value>
+  </data>
+  <data name="tl_Separator_Confirmed_all" xml:space="preserve">
+    <value>Ja, Warnmeldung nicht mehr anzeigen</value>
+  </data>
+  <data name="tl_Separator_Confirmed_this" xml:space="preserve">
+    <value>Ja, Wanrmeldung für dieses Feld nicht mehr anzeigen</value>
+  </data>
+  <data name="tl_Separator_intended" xml:space="preserve">
+    <value>Sie haben ein Tausendertrennzeichen verwendet. War dies mit Absicht?</value>
+  </data>
+  <data name="tl_ValidationError" xml:space="preserve">
+    <value>Die Validierung hat einen Fehler verursacht!
+</value>
+  </data>
+  <data name="tl_Scan_unsuccessfulMessage" xml:space="preserve">
+    <value>Prüfung konnte nicht erfolgreich durchgeführt werden.</value>
+  </data>
+  <data name="tl_SIFCorecrashed" xml:space="preserve">
+    <value>Leider ist SIFCore abgestürtzt.
+Bitte starten Sie eine neue Prüfung.
+Wenn dann noch immer eine Fehlermeldung kommt schließen Sie Excel einmal und öffnen Sie die Datei erneut.</value>
+  </data>
+  <data name="tl_OutOfMemory" xml:space="preserve">
+    <value>Nicht genügend Arbeitsspeicher für eine Prüfung vorhanden</value>
+  </data>
+  <data name="tl_stopEdit" xml:space="preserve">
+    <value>Bitte stoppen sie das Editieren der Zelle und starten sie eine neue Prüfung</value>
+  </data>
+  <data name="tl_StartNewScan" xml:space="preserve">
+    <value>Bitte starten Sie eine neue Prüfung</value>
+  </data>
+  <data name="tl_MemoryRestrictions" xml:space="preserve">
+    <value>Die Warteschlange für die Prüfungen wurde wegen Speichereinschränkungen gelöscht.</value>
+  </data>
+  <data name="tl_Archive" xml:space="preserve">
+    <value>Archiv</value>
+  </data>
+  <data name="tl_CellDefinitions" xml:space="preserve">
+    <value>Zellendefinitionen</value>
+  </data>
+  <data name="tl_Ignored" xml:space="preserve">
+    <value>Ignoriert</value>
+  </data>
+  <data name="tl_Later" xml:space="preserve">
+    <value>Später</value>
+  </data>
+  <data name="tl_NoScenariosSide" xml:space="preserve">
+    <value>Keine Szenarios erstellt. Bitte erstellen sie ein neues Szenario.</value>
+  </data>
+  <data name="tl_Open" xml:space="preserve">
+    <value>Offen</value>
+  </data>
+  <data name="tl_ScenarioOverview" xml:space="preserve">
+    <value>Szenario Übersicht</value>
+  </data>
+</root>

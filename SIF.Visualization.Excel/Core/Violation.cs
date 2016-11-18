@@ -1,55 +1,43 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
-using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace SIF.Visualization.Excel.Core
 {
-    public abstract class Violation : BindableBase
+    /// <summary>
+    /// Models one Violation in the Workbook
+    /// </summary>
+    public class Violation : BindableBase
     {
-        #region Events
-
-        public event EventHandler VisibilityChanged;
-        protected void OnVisibilityChanged()
-        {
-            if (this.VisibilityChanged != null)
-            {
-                this.VisibilityChanged(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion
-
         #region Fields
 
-        private int id;
         private string causingElement;
         private string description;
         private CellLocation cell;
-        private bool? isVisible;
-
-        private Finding finding;
+        private DateTime firstOccurrence;
+        private DateTime solvedTime;
+        private bool foundAgain;
+        private Rule rule;
+        private bool isRead;
+        private bool cellSelected;
+        private bool isSelected;
+        private bool load;
+        private ViolationType violationState;
+        private decimal severity;
+        private Workbook workbook;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets or sets the number of this violation.
-        /// </summary>
-        public int Id
-        {
-            get { return this.id; }
-            set { this.SetProperty(ref this.id, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the element causing this violation.
         /// </summary>
         public string CausingElement
         {
-            get { return this.causingElement; }
-            set { this.SetProperty(ref this.causingElement, value); }
+            get { return causingElement; }
+            set { SetProperty(ref causingElement, value); }
         }
 
         /// <summary>
@@ -57,8 +45,8 @@ namespace SIF.Visualization.Excel.Core
         /// </summary>
         public string Description
         {
-            get { return this.description; }
-            set { this.SetProperty(ref this.description, value); }
+            get { return description; }
+            set { SetProperty(ref description, value); }
         }
 
         /// <summary>
@@ -66,36 +54,131 @@ namespace SIF.Visualization.Excel.Core
         /// </summary>
         public CellLocation Cell
         {
-            get { return this.cell; }
-            set { this.SetProperty(ref this.cell, value); }
+            get { return cell; }
+            set { SetProperty(ref cell, value); }
         }
 
         /// <summary>
         /// Gets or sets the severity of this violation.
         /// </summary>
-        public abstract decimal Severity
+        public decimal Severity
         {
-            get;
-            set;
+            get { return severity; }
+            set { SetProperty(ref severity, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether this violation is visible in the spreadsheet.
+        /// Gets or sets the first occurrence of this violation.
         /// </summary>
-        public bool? IsVisible
+        public DateTime FirstOccurrence
         {
-            get { return this.isVisible; }
-            set { if (this.SetProperty(ref this.isVisible, value)) this.OnVisibilityChanged(); }
+            get { return firstOccurrence; }
+            set { SetProperty(ref firstOccurrence, value); }
         }
 
         /// <summary>
-        /// Gets or sets the finding that contains this violation.
+        /// Gets or sets the found again value of this violation.
         /// </summary>
-        public Finding Finding
+        public bool FoundAgain
         {
-            get { return this.finding; }
-            set { this.SetProperty(ref this.finding, value); }
+            get { return foundAgain; }
+            set { SetProperty(ref foundAgain, value); }
         }
+
+        /// <summary>
+        /// Gets or sets the rule of this violation.
+        /// </summary>
+        public Rule Rule
+        {
+            get { return rule; }
+            set { SetProperty(ref rule, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that shows whether this violation has been read or not
+        /// </summary>
+        public bool IsRead
+        {
+            get { return isRead; }
+            set { SetProperty(ref isRead, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that shows whether this violation has been read or not
+        /// </summary>
+        public bool IsCellSelected
+        {
+            get { return cellSelected; }
+            set { SetProperty(ref cellSelected, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether this violation is selected in the user interface.
+        /// </summary>
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                if (SetProperty(ref isSelected, value))
+                {
+                    if (value)
+                    {
+                        IsRead = true;
+                        foreach (CellLocation cell in DataModel.Instance.CurrentWorkbook.ViolatedCells)
+                        {
+                            Regex rgx = new Regex(@"\$|=");
+                            if (cell.ViolationType.Equals(violationState) && rgx.Replace(cell.Location, string.Empty).Equals(rgx.Replace(Cell.Location, string.Empty)))
+                            {
+                                cell.Select(this);
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (CellLocation cell in DataModel.Instance.CurrentWorkbook.ViolatedCells)
+                        {
+                            Regex rgx = new Regex(@"\$|=");
+                            if (cell.ViolationType.Equals(violationState) && rgx.Replace(cell.Location, string.Empty).Equals(rgx.Replace(Cell.Location, String.Empty)))
+                            {
+                                cell.Unselect();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the time when this violation has been solved
+        /// </summary>
+        public DateTime SolvedTime
+        {
+            get { return solvedTime; }
+            set { SetProperty(ref solvedTime, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the state of this violation.
+        /// </summary>
+        public ViolationType ViolationState
+        {
+            get { return violationState; }
+            set
+            {
+                // delete from old list
+                HandleOldState();
+                // set value
+                SetProperty(ref violationState, value);
+                // Add to new list
+                HandleNewState(value);
+                
+            }
+        }
+
+
 
         #endregion
 
@@ -112,11 +195,11 @@ namespace SIF.Visualization.Excel.Core
             if ((object)other == null) return false;
 
             return base.Equals(other) &&
-                   this.Id == other.Id &&
-                   this.CausingElement == other.CausingElement &&
-                   this.Description == other.Description &&
-                   this.Cell == other.Cell &&
-                   this.IsVisible == other.IsVisible;
+                   CausingElement == other.CausingElement &&
+                   Description == other.Description &&
+                   Cell == other.Cell &&
+                   Rule == other.Rule &&
+                   Severity == other.Severity;
         }
 
         /// <summary>
@@ -136,7 +219,7 @@ namespace SIF.Visualization.Excel.Core
         /// <returns>true, if the given instances are equal; otherwise, false.</returns>
         public static bool operator ==(Violation a, Violation b)
         {
-            if (System.Object.ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, b)) return true;
             if (((object)a == null) || ((object)b == null)) return false;
 
             return a.Equals(b);
@@ -155,33 +238,201 @@ namespace SIF.Visualization.Excel.Core
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Constructor of a violation
+        /// </summary>
+        /// <param name="root">the root XML element</param>
+        /// <param name="workbook">the current workbook</param>
+        /// <param name="scanTime">the time when this violation has been occurred</param>
+        /// <param name="rule">the rule of this violation</param>
+        public Violation(XElement root, Workbook workbook, DateTime scanTime, Rule rule)
+        {
+            CausingElement = root.Attribute(XName.Get("causingelement")).Value;
+            Description = root.Attribute(XName.Get("description")).Value;
+            Severity = decimal.Parse(root.Attribute(XName.Get("severity")).Value.Replace(".0", String.Empty));
+
+            this.workbook = workbook;
+
+            firstOccurrence = scanTime;
+            this.rule = rule;
+            foundAgain = true;
+            FindCellLocation(root.Attribute(XName.Get("location")).Value);
+            //Before there was the following Code written here:
+            //this.violationState = ViolationType.OPEN;
+            // It got commented out because like this any finding marked with later got overriten
+            // with violationtype open.
+        }
+
+        /// <summary>
+        /// Constructor for the xml file, that is stored in the .xls file
+        /// </summary>
+        /// <param name="element">The root XElement of the xml</param>
+        /// <param name="workbook">The current workbook</param>
+        public Violation(XElement element, Workbook workbook)
+        {
+            load = true;
+            this.workbook = workbook;
+            CausingElement = element.Attribute(XName.Get("causingelement")).Value;
+            Description = element.Attribute(XName.Get("description")).Value;
+            FirstOccurrence = DateTime.Parse(element.Attribute(XName.Get("firstoccurrence")).Value);
+            ViolationState = (ViolationType)Enum.Parse(typeof(ViolationType), element.Attribute(XName.Get("violationstate")).Value);
+            SolvedTime = DateTime.Parse(element.Attribute(XName.Get("solvedtime")).Value);
+            isRead = Convert.ToBoolean(element.Attribute(XName.Get("isread")).Value);
+            isSelected = Convert.ToBoolean(element.Attribute(XName.Get("isselected")).Value);
+            severity = Decimal.Parse(element.Attribute(XName.Get("severity")).Value);
+            Rule = new Rule(element.Element(XName.Get("rule")));
+            FindCellLocation(element.Attribute(XName.Get("cell")).Value);
+            load = false;
+            IsCellSelected = false;
+            
+        }
+
+        #endregion
+
         #region Methods
 
-        public Violation()
+        /// <summary>
+        /// Writes the fields of this superclass to a XElement
+        /// </summary>
+        /// <param name="element">the xml element</param>
+        /// <returns>the element with the added attributes</returns>
+        public XElement ToXElement(String name)
         {
+            var element = new XElement(XName.Get(name));
+            element.SetAttributeValue(XName.Get("causingelement"), CausingElement);
+            element.SetAttributeValue(XName.Get("description"), Description);
+            element.SetAttributeValue(XName.Get("cell"), Cell.ToString());
+            element.SetAttributeValue(XName.Get("firstoccurrence"), FirstOccurrence);
+            element.SetAttributeValue(XName.Get("violationstate"), ViolationState);
+            element.SetAttributeValue(XName.Get("solvedtime"), SolvedTime);
+            element.SetAttributeValue(XName.Get("isread"), IsRead);
+            element.SetAttributeValue(XName.Get("isselected"), isSelected);
+            element.SetAttributeValue(XName.Get("severity"), severity);
+            element.Add(Rule.ToXElement());
+            IsCellSelected = false;
+            return element;
         }
 
-        public Violation(XElement root, Workbook workbook, Finding finding)
+        private void HandleNewState(ViolationType type)
         {
-            this.Finding = finding;
+            if (!load)
+            {
+                switch (type)
+                {
+                    case ViolationType.OPEN:
+                        DataModel.Instance.CurrentWorkbook.Violations.Add(this);
+                        break;
+                    case ViolationType.IGNORE:
+                        IsRead = true;
+                        DataModel.Instance.CurrentWorkbook.IgnoredViolations.Add(this);
+                        break;
+                    case ViolationType.LATER:
+                        IsRead = true;
+                        DataModel.Instance.CurrentWorkbook.LaterViolations.Add(this);
+                        break;
+                    case ViolationType.SOLVED:
+                        IsRead = true;
+                        DataModel.Instance.CurrentWorkbook.SolvedViolations.Add(this);
+                        break;
+                }
+                
+                PersistCellLocation();
+            }
+        }
 
-            //this.Id = Convert.ToInt32(root.Attribute(XName.Get("number")).Value);
-            this.CausingElement = root.Attribute(XName.Get("causingelement")).Value;
-            this.Description = root.Attribute(XName.Get("description")).Value;
+        /// <summary>
+        /// Handles the action when an old ViolationState is removed
+        /// </summary>
+        private void HandleOldState()
+        { 
+            if (load) return;
+            IsCellSelected = false;
+            switch (violationState)
+            {
+                case ViolationType.OPEN:
+                    DataModel.Instance.CurrentWorkbook.Violations.Remove(this);
+                    break;
+                case ViolationType.IGNORE:
+                    DataModel.Instance.CurrentWorkbook.IgnoredViolations.Remove(this);
+                    break;
+                case ViolationType.LATER:
+                    DataModel.Instance.CurrentWorkbook.LaterViolations.Remove(this);
+                    break;
+                case ViolationType.SOLVED:
+                    DataModel.Instance.CurrentWorkbook.SolvedViolations.Remove(this);
+                    break;
+            }
+                this.IsCellSelected = false;
+            RemovefromCellLocation();
+        }
 
-            var location = root.Attribute(XName.Get("location")).Value;
+        private void FindCellLocation(String location)
+        {
             if (!string.IsNullOrWhiteSpace(location))
             {
-                // Split the location string into its components
-                // Input might be: [example.xlsx]Sheet1!B12
                 location = location.Substring(location.IndexOf(']') + 1);
-                this.Cell = new CellLocation(workbook, location);
+                foreach (CellLocation cell in DataModel.Instance.CurrentWorkbook.ViolatedCells)
+                {
+                    Regex rgx = new Regex(@"\$|=");
+                    if (cell.ViolationType.Equals(this.violationState) && rgx.Replace(cell.Location, "").Equals(rgx.Replace(location, "")))
+                    {
+                        Cell = cell;
+                        return;
+                    }
+                }
+                this.cell = new CellLocation(workbook, location);
             }
-
-            this.IsVisible = true;
         }
 
-        public abstract void CreateControls();
+        /// <summary>
+        /// Checks if the cell of the violation already has other violations and adds the new one or adds a new cell to the cellswithviolations and adds the violation to the
+        /// respecting cell
+        /// </summary>
+        public void PersistCellLocation()
+        {
+            if (this.cell == null)
+            {
+                throw new NullReferenceException("The cell location is null. You have to call FindCellLocation before");
+            }
+            string location = Cell.Location;
+            if (!string.IsNullOrWhiteSpace(location))
+            {
+                location = location.Substring(location.IndexOf(']') + 1);
+                foreach (CellLocation cell in DataModel.Instance.CurrentWorkbook.ViolatedCells)
+                {
+                    Regex rgx = new Regex(@"\$|=");
+                    if (cell.ViolationType.Equals(this.violationState) && rgx.Replace(cell.Location, "").Equals(rgx.Replace(location, "")))
+                    {
+                        Cell = cell;
+                        cell.Violations.Add(this);
+                        // Should the current Violation be visible (depending of the tab/categorie that is clicked in the sidepane)
+                        cell.SetVisibility(DataModel.Instance.CurrentWorkbook.SelectedTab);
+                        return;
+                    }
+                }
+                //Only happens if until now there was no violation with matching cell found
+                this.cell.ViolationType = violationState;
+                this.cell.Violations.Add(this);
+                DataModel.Instance.CurrentWorkbook.ViolatedCells.Add(this.cell);
+            }
+        }
+
+        private void RemovefromCellLocation()
+        {
+            string location = Cell.Location;
+            for (int i = DataModel.Instance.CurrentWorkbook.ViolatedCells.Count - 1; i >= 0; i--)
+            {
+                CellLocation cell = DataModel.Instance.CurrentWorkbook.ViolatedCells[i];
+                Regex rgx = new Regex(@"\$|=");
+                if (cell.ViolationType.Equals(violationState) && rgx.Replace(cell.Location, string.Empty).Equals(rgx.Replace(location, string.Empty)))
+                {
+                    cell.Violations.Remove(this);
+                    return;
+                }
+            }
+        }
 
         #endregion
     }

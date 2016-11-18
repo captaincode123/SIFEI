@@ -1,13 +1,13 @@
 ﻿using SIF.Visualization.Excel.Core;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using System.Windows;
+using System.IO;
+using SIF.Visualization.Excel.Properties;
 
 namespace SIF.Visualization.Excel.Networking
 {
@@ -17,6 +17,7 @@ namespace SIF.Visualization.Excel.Networking
 
         private static volatile XMLPartManager instance;
         private static object syncRoot = new Object();
+        private XmlSchemaSet report, request;
 
         private XMLPartManager()
         {
@@ -47,7 +48,7 @@ namespace SIF.Visualization.Excel.Networking
         #region Methods
         public XElement LoadXMLPart(WorkbookModel workbook, string id)
         {
-            var part = this.GetCustomXLPart(workbook, id);
+            var part = GetCustomXLPart(workbook, id);
 
             if (part != null)
             {
@@ -71,7 +72,7 @@ namespace SIF.Visualization.Excel.Networking
             masterRoot.Add(root);
 
             //clear old
-            var oldPart = this.GetCustomXLPart(workbook, id);
+            var oldPart = GetCustomXLPart(workbook, id);
             if (oldPart != null)
             {
                 oldPart.Delete();
@@ -97,7 +98,7 @@ namespace SIF.Visualization.Excel.Networking
                     }
                 }
                 catch (Exception e)
-                { }
+                { Console.WriteLine(e.Message); }
             }
 
             return resultPart;
@@ -105,29 +106,63 @@ namespace SIF.Visualization.Excel.Networking
 
         public XmlSchema ReadXMLSchemaFromFile(string filename)
         {
-            try 
-	        {	        
-		        XmlTextReader reader = new XmlTextReader(filename);
+            try
+            {
+                XmlTextReader reader = new XmlTextReader(filename);
                 XmlSchema myschema = XmlSchema.Read(reader, ValidationCallback);
 
                 return myschema;
-	        }
-	        catch (Exception)
-	        {
-		          return null;
-	        }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
 
         }
 
+        /// <summary>
+        /// Creates and returns the XML Schema definition for the SpRuDeL requests
+        /// with a ValidationCallback which reports errors to the UI.
+        /// </summary>
+        /// <returns>The corresponding XmlSchemaSet</returns>
+        public XmlSchemaSet GetRequestSchema()
+        {
+            if (request == null)
+            {
+                var sprudel = XmlReader.Create(new StringReader(SchemaStrings.getRequestXSD()));
+                request = new XmlSchemaSet();
+                request.Add(string.Empty, sprudel);
+                request.ValidationEventHandler += ValidationCallback;
+            }
+            return request;
+        }
+
+        /// <summary>
+        /// Creates and returns the XML Schema definition for the SpRuDeL reports
+        /// with a ValidationCallback which reports errors to the UI.
+        /// </summary>
+        /// <returns>The corresponding XmlSchemaSet</returns>
+        public XmlSchemaSet getReportSchema(){
+            if (report == null)
+            {
+                var sprudel = XmlReader.Create(new StringReader(SchemaStrings.getReportXSD()));
+                report = new XmlSchemaSet();
+                report.Add(string.Empty, sprudel);
+                report.ValidationEventHandler += ValidationCallback;
+            }
+            return report;
+        } 
+
         public void ValidationCallback(object sender, ValidationEventArgs e)
         {
- 	        if (e.Severity == XmlSeverityType.Warning)  
+            if (e.Severity == XmlSeverityType.Warning)
             {
                 Debug.Write("WARNING ValidationCallback: ");
             }
             else if (e.Severity == XmlSeverityType.Error)
             {
                 Debug.Write("ERROR ValidationCallback: ");
+                MessageBox.Show(Resources.tl_ValidationError + e.Message, Resources.tl_MessageBox_Error);
             }
 
             Debug.WriteLine(e.Message);

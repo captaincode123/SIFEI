@@ -1,13 +1,13 @@
-﻿using SIF.Visualization.Excel.Networking;
-using SIF.Visualization.Excel.Properties;
+﻿using SIF.Visualization.Excel.ViolationsView;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace SIF.Visualization.Excel.Core
 {
+    /// <summary>
+    /// Instance of an inspection
+    /// </summary>
     public class InspectionJob : BindableBase
     {
         #region Fields
@@ -25,8 +25,8 @@ namespace SIF.Visualization.Excel.Core
         /// </summary>
         public WorkbookModel Workbook
         {
-            get { return this.workbook; }
-            set { this.SetProperty(ref this.workbook, value); }
+            get { return workbook; }
+            set { SetProperty(ref workbook, value); }
         }
 
         /// <summary>
@@ -34,17 +34,17 @@ namespace SIF.Visualization.Excel.Core
         /// </summary>
         public string SpreadsheetPath
         {
-            get { return this.spreadsheetPath; }
-            set { this.SetProperty(ref this.spreadsheetPath, value); }
+            get { return spreadsheetPath; }
+            set { SetProperty(ref spreadsheetPath, value); }
         }
 
-        // <summary>
+        /// <summary>
         /// Gets or sets the policy of the spreadsheet that is under evaluation.
         /// </summary>
         public XDocument PolicyXML
         {
-            get { return this.policyXML; }
-            set { this.SetProperty(ref this.policyXML, value); }
+            get { return policyXML; }
+            set { SetProperty(ref policyXML, value); }
         }
 
         #endregion
@@ -61,9 +61,9 @@ namespace SIF.Visualization.Excel.Core
             var other = obj as InspectionJob;
             if ((object)other == null) return false;
 
-            return this.Workbook == other.Workbook &&
-                   this.SpreadsheetPath == other.SpreadsheetPath &&
-                   this.policyXML == other.policyXML;
+            return Workbook == other.Workbook &&
+                   SpreadsheetPath == other.SpreadsheetPath &&
+                   policyXML == other.policyXML;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace SIF.Visualization.Excel.Core
         /// <returns>true, if the given instances are equal; otherwise, false.</returns>
         public static bool operator ==(InspectionJob a, InspectionJob b)
         {
-            if (System.Object.ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(a, b)) return true;
             if (((object)a == null) || ((object)b == null)) return false;
 
             return a.Equals(b);
@@ -104,6 +104,12 @@ namespace SIF.Visualization.Excel.Core
 
         #region Methods
 
+        /// <summary>
+        /// Constructor to  create a new Inspection Job
+        /// </summary>
+        /// <param name="workbook"> Workbook that should be inspected</param>
+        /// <param name="spreadsheetPath">Path where the Sheet is saved</param>
+        /// <param name="policyXML"> The XML where it is defined which rules should be checked</param>
         public InspectionJob(WorkbookModel workbook, string spreadsheetPath, XDocument policyXML)
         {
             this.workbook = workbook;
@@ -112,17 +118,31 @@ namespace SIF.Visualization.Excel.Core
         }
 
         /// <summary>
-        /// The execution has been successful, now handle the report.
+        /// Deletes the Workbook saved in the before specified Path
+        /// </summary>
+        public void DeleteWorkbookFile()
+        {
+            try
+            {
+                File.Delete(SpreadsheetPath);
+            }
+            catch (FileNotFoundException)
+            {
+                // ignore silently
+            }
+        }
+
+        /// <summary>
+        /// The scan has been successful, now handle the report to finalize the whole process
         /// </summary>
         public void Finalize(string report)
         {
-            if (this.Workbook == null) return;
-            File.Delete(this.SpreadsheetPath);
-
+            DeleteWorkbookFile();
+            if (Workbook == null) return;
             // Execute on the right dispatcher
-            (Globals.ThisAddIn.TaskPanes[new Tuple<WorkbookModel, string>(this.Workbook, "Findings")].Control as FindingsPaneContainer).FindingsPane.Dispatcher.Invoke(() =>
+            (Globals.ThisAddIn.TaskPanes[new Tuple<WorkbookModel, string>(Workbook, "Violations")].Control as ViolationsViewContainer).ViolationsView.Dispatcher.Invoke(() =>
             {
-                this.Workbook.Load(report);
+                Workbook.Load(report);
             });
         }
 

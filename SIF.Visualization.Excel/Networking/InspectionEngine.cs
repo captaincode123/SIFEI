@@ -1,4 +1,5 @@
-﻿using SIF.Visualization.Excel.Core;
+﻿using System.Runtime.InteropServices;
+using SIF.Visualization.Excel.Core;
 using SIF.Visualization.Excel.Properties;
 using System;
 using System.Collections.Concurrent;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
+using SIF.Visualization.Excel.Helper;
 
 namespace SIF.Visualization.Excel.Networking
 {
@@ -16,6 +18,11 @@ namespace SIF.Visualization.Excel.Networking
     /// </summary>
     public class InspectionEngine
     {
+        /// <summary>
+        /// Saves for a short time if an MemoryRestriction Exception got raised
+        /// </summary>
+        private bool _hadMemoryRestriction = false;
+
         #region Singleton
 
         private static volatile InspectionEngine instance;
@@ -24,10 +31,10 @@ namespace SIF.Visualization.Excel.Networking
         private InspectionEngine()
         {
             // Initialize the default port
-            this.Port = Settings.Default.DefaultPort;
+            Port = Settings.Default.DefaultPort;
 
             // Create the inspection queue
-            this.InspectionQueue = new BlockingCollection<InspectionJob>();
+            InspectionQueue = new BlockingCollection<InspectionJob>();
         }
 
         /// <summary>
@@ -57,47 +64,27 @@ namespace SIF.Visualization.Excel.Networking
         /// <summary>
         /// Gets or sets the state of the inspection engine.
         /// </summary>
-        public InspectionEngineState State
-        {
-            get;
-            private set;
-        }
+        public InspectionEngineState State { get; private set; }
 
         /// <summary>
         /// Gets the inspection queue.
         /// </summary>
-        public BlockingCollection<InspectionJob> InspectionQueue
-        {
-            get;
-            private set;
-        }
+        public BlockingCollection<InspectionJob> InspectionQueue { get; private set; }
 
         /// <summary>
         /// Gets or sets the server thread.
         /// </summary>
-        protected Thread ServerThread
-        {
-            get;
-            private set;
-        }
+        protected Thread ServerThread { get; private set; }
 
         /// <summary>
         /// Gets or sets the server socket.
         /// </summary>
-        protected TcpListener TcpServer
-        {
-            get;
-            private set;
-        }
+        protected TcpListener TcpServer { get; private set; }
 
         /// <summary>
         /// Gets or sets the local port.
         /// </summary>
-        public ushort Port
-        {
-            get;
-            private set;
-        }
+        public ushort Port { get; private set; }
 
         #endregion
 
@@ -117,26 +104,26 @@ namespace SIF.Visualization.Excel.Networking
                 try
                 {
                     // Try to bind the socket to the standard or the incremented port
-                    this.TcpServer = new TcpListener(new IPEndPoint(IPAddress.Loopback, this.Port));
+                    TcpServer = new TcpListener(new IPEndPoint(IPAddress.Loopback, Port));
 
                     // Try and start the socket server.
-                    this.TcpServer.Start();
+                    TcpServer.Start();
 
                     // If there was no exception, the socket server is now connected.
                     isStarted = true;
 
                     // Create and start the server thread.
-                    this.ServerThread = new Thread(new ThreadStart(ServerRunLoop));
-                    this.ServerThread.IsBackground = true;
-                    this.ServerThread.Start();
+                    ServerThread = new Thread(new ThreadStart(ServerRunLoop));
+                    ServerThread.IsBackground = true;
+                    ServerThread.Start();
 
                     // Notify that the server is now up and running.
-                    this.State = InspectionEngineState.Waiting;
+                    State = InspectionEngineState.Waiting;
                 }
                 catch (Exception)
                 {
                     // Increment the port number by one.
-                    this.Port++;
+                    Port++;
                 }
             }
         }
@@ -146,19 +133,19 @@ namespace SIF.Visualization.Excel.Networking
         /// </summary>
         public void Stop()
         {
-            if (this.TcpServer != null)
+            if (TcpServer != null)
             {
-                this.TcpServer.Stop();
-                this.TcpServer = null;
+                TcpServer.Stop();
+                TcpServer = null;
             }
 
-            this.State = InspectionEngineState.NotRunning;
+            State = InspectionEngineState.NotRunning;
 
-            this.ServerThread.Abort();
+            ServerThread.Abort();
         }
 
         /// <summary>
-        /// Returns a value that indicates, whether the specified socket connected or not.
+        /// Returns a value that indicates, whether the specified socket is connected or not.
         /// </summary>
         public static bool IsSocketConnected(Socket socket)
         {
@@ -179,6 +166,7 @@ namespace SIF.Visualization.Excel.Networking
         /// </summary>
         protected void ServerRunLoop()
         {
+            TcpListener currentTcpListener = TcpServer;
             try
             {
                 // The server will keep running until its thread is aborted.
@@ -187,23 +175,29 @@ namespace SIF.Visualization.Excel.Networking
                     if (!File.Exists(Settings.Default.FrameworkPath + Path.DirectorySeparatorChar + "sif.jar"))
                     {
                         // Sif has not been installed correctly.
-                        MessageBox.Show("The Spreadsheet Inspection Framework was not found at this location:\n" + Settings.Default.FrameworkPath + Path.DirectorySeparatorChar + "sif.jar\n\nPlease install the Spreadsheet Inspection Framework and restart Excel.", "Error");
+                        MessageBox.Show(Resources.tl_Path_missing
+                                        +
+                                        Settings.Default.FrameworkPath + Path.DirectorySeparatorChar +
+                                        "sif.jar\n\n" + Resources.tl_Path_install, Resources.tl_MessageBox_Error);
                     }
 
                     // Launch a new instance of the Spreadsheet Inspection Framework
-                    var startInfo = new ProcessStartInfo("java", "-jar \"" + Settings.Default.FrameworkPath + Path.DirectorySeparatorChar + "sif.jar\" " + InspectionEngine.Instance.Port);
+                    var startInfo = new ProcessStartInfo("cmd",
+                        "/q /c java -jar \"" + Settings.Default.FrameworkPath + Path.DirectorySeparatorChar +
+                        "sif.jar\" "
+                        + Settings.Default.SifOptions + " " + Instance.Port);
                     startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    var process = Process.Start(startInfo);
+                    Process.Start(startInfo);
 
                     // Wait for the client to connect.
-                    var clientSocket = TcpServer.AcceptSocket();
+                    var clientSocket = currentTcpListener.AcceptSocket();
 
                     #region Functionality
 
                     while (IsSocketConnected(clientSocket))
                     {
                         // Get the next inspection job from the inspection queue
-                        var currentJob = this.InspectionQueue.Take();
+                        var currentJob = InspectionQueue.Take();
 
                         try
                         {
@@ -211,43 +205,73 @@ namespace SIF.Visualization.Excel.Networking
                             var writer = new StringWriter();
                             currentJob.PolicyXML.Save(writer);
                             clientSocket.SendString(writer.GetStringBuilder().ToString());
-
-                            // Then, send the spreadsheet
-                            clientSocket.SendBytes(File.ReadAllBytes(currentJob.SpreadsheetPath));
-
                             // Read the report from the socket connection
+
                             var report = clientSocket.ReadString();
 
                             // Let the inspection job know about the report
                             currentJob.Finalize(report);
                         }
+                        catch (OutOfMemoryException)
+                        {
+                            // Try to release as many resources as possible#
+                            ScanHelper.ScanUnsuccessful(Resources.tl_MemoryRestrictions + "\n" + Resources.tl_StartNewScan);
+                            _hadMemoryRestriction = true;
+                            currentJob.DeleteWorkbookFile();
+                            foreach (InspectionJob job in InspectionQueue)
+                            {
+                                job.DeleteWorkbookFile();
+                            }
+                            InspectionQueue.Dispose();
+                            InspectionQueue = new BlockingCollection<InspectionJob>();
+                            
+                            // restart the server loop
+                            throw new Exception();
+                        }
                         catch (Exception e)
                         {
-                            // Put the job in the queue again
-                            MessageBox.Show("The test of the current document failed!\n" + e.Message, "Error");
+                            if (!_hadMemoryRestriction) ScanHelper.ScanUnsuccessful();
+                            Start();
                         }
                     }
 
                     #endregion
                 }
             }
-            catch (Exception)
+            catch (ExternalException) // Java is not on the path
             {
-                // An error occured, so try and restart the server
-                if (this.TcpServer != null)
-                    this.RestartServer();
+                if (Globals.Ribbons.Ribbon.scanButton != null && Globals.Ribbons.Ribbon != null &&
+                    Globals.Ribbons != null)
+                {
+                    ScanHelper.ScanUnsuccessful(Resources.tl_No_Java_Enviroment);
+                }
+                else
+                {
+                    MessageBox.Show(
+                    Resources.tl_No_Java_Enviroment,
+                    Resources.tl_MessageBox_Error);
+                }
+            }
+            catch (Exception e)
+            {
+                
+                try
+                {
+                    ScanHelper.ScanUnsuccessful();
+                }
+                    //Catch if Ribbon was never instantiated 
+                catch (NullReferenceException ex)
+                {
+                    // Quietly swallow exception
+                }
+                // start will fork into a new thread
+                Start();
+                // we will die in a short while, nothing to be done
             }
             finally
             {
-                if (this.TcpServer != null)
-                    this.TcpServer.Stop();
+                currentTcpListener.Stop();
             }
-        }
-
-        private void RestartServer()
-        {
-            this.Stop();
-            this.Start();
         }
 
         #endregion

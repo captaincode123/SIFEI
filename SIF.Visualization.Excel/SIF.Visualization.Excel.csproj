@@ -27,17 +27,40 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>SIF.Visualization.Excel</RootNamespace>
     <AssemblyName>SIF.Visualization.Excel</AssemblyName>
-    <LoadBehavior>3</LoadBehavior>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
+    <PublishUrl>C:\Users\oem\Desktop\3e43b07\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.4</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <ProductName>SIF.Visualization.Excel</ProductName>
+    <PublisherName />
+    <SupportUrl />
+    <FriendlyName>SIF.Visualization.Excel</FriendlyName>
+    <OfficeApplicationDescription />
+    <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
       <Visible>False</Visible>
@@ -76,6 +99,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>GlobalizationRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -100,18 +126,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -158,32 +187,84 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="CellErrorInfo.xaml.cs">
+    <Compile Include="CellErrorInfo\CellErrorInfo.xaml.cs">
       <DependentUpon>CellErrorInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CellErrorInfoContainer.cs">
+    <Compile Include="CellErrorInfo\CellErrorInfoContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CellErrorInfoContainer.Designer.cs">
+    <Compile Include="CellErrorInfo\CellErrorInfoContainer.Designer.cs">
       <DependentUpon>CellErrorInfoContainer.cs</DependentUpon>
     </Compile>
     <Compile Include="Cells\CellManager.cs" />
     <Compile Include="Cells\InputCell.cs" />
     <Compile Include="Cells\IntermediateCell.cs" />
     <Compile Include="Cells\OutputCell.cs" />
+    <Compile Include="Cells\SanityCells.cs" />
     <Compile Include="Core\BindableBase.cs" />
     <Compile Include="Core\Cell.cs" />
     <Compile Include="Core\CellLocation.cs" />
-    <Compile Include="Core\FalsePositive.cs" />
-    <Compile Include="Core\Finding.cs" />
-    <Compile Include="Core\GroupViolation.cs" />
     <Compile Include="Core\InspectionJob.cs" />
+    <Compile Include="Core\InspectionType.cs" />
+    <Compile Include="Core\Rule.cs" />
+    <Compile Include="Core\PolicyConfigurationModel.cs" />
+    <Compile Include="Core\SharedTabs.cs" />
+    <Compile Include="Core\ViolationType.cs" />
     <Compile Include="Core\WorkbookModel.cs" />
     <Compile Include="Core\Policy.cs" />
-    <Compile Include="Core\SingleViolation.cs" />
     <Compile Include="Core\Violation.cs" />
     <Compile Include="Core\DataModel.cs" />
-    <Compile Include="ScenarioCore\ScenarioUICreator.cs" />
+    <Compile Include="CustomInputDialog.cs" />
+    <Compile Include="GlobalSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GlobalSettingsDialog.Designer.cs">
+      <DependentUpon>GlobalSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\ScanHelper.cs" />
+    <Compile Include="IgnoreView\IgnoreView.xaml.cs">
+      <DependentUpon>IgnoreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IgnoreView\IgnoreViewContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IgnoreView\IgnoreViewContainer.Designer.cs">
+      <DependentUpon>IgnoreViewContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LaterView\LaterView.xaml.cs">
+      <DependentUpon>LaterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LaterView\LaterViewContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LaterView\LaterViewContainer.Designer.cs">
+      <DependentUpon>LaterViewContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Networking\SchemaStrings.cs" />
+    <Compile Include="PolicyConfigurationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolicyConfigurationDialog.Designer.cs">
+      <DependentUpon>PolicyConfigurationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.de.Designer.cs">
+      <DependentUpon>Resources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.en.Designer.cs">
+      <DependentUpon>Resources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ScenarioView\NumberValidationMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScenarioView\NumberValidationMessageBox.Designer.cs">
+      <DependentUpon>NumberValidationMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScenarioView\NumberValidationRule.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\ScenarioUICreator.cs" />
     <Compile Include="ScenarioView\CreateScenarioDataField.xaml.cs">
       <DependentUpon>CreateScenarioDataField.xaml</DependentUpon>
     </Compile>
@@ -196,21 +277,6 @@
     <Compile Include="ScenarioView\DefineCellsPane.xaml.cs">
       <DependentUpon>DefineCellsPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScenarioView\DefineCellsPaneContainer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ScenarioView\DefineCellsPaneContainer.Designer.cs">
-      <DependentUpon>DefineCellsPaneContainer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FindingsPane.xaml.cs">
-      <DependentUpon>FindingsPane.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FindingsPaneContainer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FindingsPaneContainer.Designer.cs">
-      <DependentUpon>FindingsPaneContainer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Networking\InspectionEngine.cs" />
     <Compile Include="Networking\InspectionEngineState.cs" />
     <Compile Include="Networking\SocketExtensions.cs" />
@@ -218,26 +284,52 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScenarioCore\CellDefinitionType.cs" />
-    <Compile Include="ScenarioCore\IAcceptVisitor.cs" />
-    <Compile Include="ScenarioCore\CellData.cs" />
-    <Compile Include="ScenarioCore\InputCellData.cs" />
-    <Compile Include="ScenarioCore\IntermediateCellData.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\FormulaCompexity.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\NoConstantsInFormula.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\ReadingDirection.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\StaticScenarioRule.cs" />
-    <Compile Include="ScenarioCore\Visitor\CellDefinitionToXMLVisitor.cs" />
-    <Compile Include="ScenarioCore\Visitor\IVisitor.cs" />
-    <Compile Include="ScenarioCore\ResultCellData.cs" />
-    <Compile Include="ScenarioCore\Scenario.cs" />
-    <Compile Include="ScenarioCore\Visitor\ScenarioToXMLVisitor.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\SpecializedCollection.cs" />
-    <Compile Include="ScenarioCore\Visitor\Sprudel1_2XMLVisitor.cs" />
-    <Compile Include="ScenarioCore\StaticScenarios\StaticScenario.cs" />
-    <Compile Include="ScenarioCore\TestInputType.cs" />
-    <Compile Include="ScenarioCore\Visitor\XMLToCellDefinitionVisitor.cs" />
-    <Compile Include="ScenarioCore\Visitor\XMLToScenarioVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\CellDefinitionType.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\IAcceptVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\CellData.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\InputCellData.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\IntermediateCellData.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\FormulaCompexity.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\NoConstantsInFormula.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\ReadingDirection.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\StaticScenarioRule.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\CellDefinitionToXMLVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\IVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\ResultCellData.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Scenario.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\ScenarioToXMLVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\SpecializedCollection.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\Sprudel1_5XMLVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\StaticScenarios\StaticScenario.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\TestInputType.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\XMLToCellDefinitionVisitor.cs" />
+    <Compile Include="ScenarioView\ScenarioCore\Visitor\XMLToScenarioVisitor.cs" />
+    <Compile Include="SharedView\SharedPane.xaml.cs">
+      <DependentUpon>SharedPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SharedView\SharedPaneContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SharedView\SharedPaneContainer.Designer.cs">
+      <DependentUpon>SharedPaneContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SolvedView\SolvedView.xaml.cs">
+      <DependentUpon>SolvedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SolvedView\SolvedViewContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SolvedView\SolvedViewContainer.Designer.cs">
+      <DependentUpon>SolvedViewContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewCommon\ViolationTemplate.xaml.cs">
+      <DependentUpon>ViolationTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BooleanToBorderThicknessConverter.cs" />
+    <Compile Include="ViewModel\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="ViewModel\BoolToFontWeightConverter.cs" />
+    <Compile Include="ViewModel\CellLocationToBrushConverter.cs" />
+    <Compile Include="ViewModel\CellLocationToImageConverter.cs" />
     <Compile Include="ViewModel\DifferenceTextBoxMultiConverter.cs" />
     <Compile Include="ScenarioView\ScenarioDetailPane.xaml.cs">
       <DependentUpon>ScenarioDetailPane.xaml</DependentUpon>
@@ -251,17 +343,13 @@
     <Compile Include="ScenarioView\ScenarioPane.xaml.cs">
       <DependentUpon>ScenarioPane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScenarioView\ScenarioPaneContainer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ScenarioView\ScenarioPaneContainer.Designer.cs">
-      <DependentUpon>ScenarioPaneContainer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="ViewModel\BackgroundToForegroundConverter.cs" />
-    <Compile Include="ViewModel\BooleanNORConverter.cs" />
     <Compile Include="ViewModel\BooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\CellDataClassToVisibilityConverter.cs" />
+    <Compile Include="ViewModel\IntToVisibilityMultiValueConverter.cs" />
+    <Compile Include="ViewModel\InverseIntToVisibilityMultiValueConverter.cs" />
+    <Compile Include="ViewModel\SeverityIgnoreToColorConverter.cs" />
+    <Compile Include="ViewModel\StringIsNotEmptyToBoolConverter.cs" />
     <Compile Include="ViewModel\InputCellTypeToVisibilityConverter.cs" />
     <Compile Include="ViewModel\DescriptionToShortDescriptionConverter.cs" />
     <Compile Include="ViewModel\IntToVisibilityConverter.cs" />
@@ -269,24 +357,52 @@
     <Compile Include="ViewModel\InverseIntToVisibilityConverter.cs" />
     <Compile Include="ViewModel\OutputCellTypeToVisibilityConverter.cs" />
     <Compile Include="ViewModel\SelectionToOpacityConverter.cs" />
-    <Compile Include="ViewModel\SeverityToColorConverter.cs" />
     <Compile Include="ViewModel\SingleViolationToInverseVisibilityConverter.cs" />
     <Compile Include="ViewModel\SingleViolationToVisibilityConverter.cs" />
     <Compile Include="ViewModel\StringEqualsToBoolConverter.cs" />
-    <EmbeddedResource Include="CellErrorInfoContainer.resx">
+    <Compile Include="ViewModel\TypeConverter.cs" />
+    <Compile Include="ViewModel\MultipleToImageConverter.cs" />
+    <Compile Include="ViewModel\TypeReadToImageConverter.cs" />
+    <Compile Include="ViewModel\VisibleToTextConverter.cs" />
+    <Compile Include="ViolationsView\ViolationsView.xaml.cs">
+      <DependentUpon>ViolationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViolationsView\ViolationsViewContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViolationsView\ViolationsViewContainer.Designer.cs">
+      <DependentUpon>ViolationsViewContainer.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CellErrorInfo\CellErrorInfoContainer.resx">
       <DependentUpon>CellErrorInfoContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalSettingsDialog.de.resx">
+      <DependentUpon>GlobalSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalSettingsDialog.en.resx">
+      <DependentUpon>GlobalSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalSettingsDialog.resx">
+      <DependentUpon>GlobalSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolicyConfigurationDialog.resx">
+      <DependentUpon>PolicyConfigurationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ScenarioView\CreateScenarioDataFieldContainer.resx">
       <DependentUpon>CreateScenarioDataFieldContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScenarioView\DefineCellsPaneContainer.resx">
-      <DependentUpon>DefineCellsPaneContainer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FindingsPaneContainer.resx">
-      <DependentUpon>FindingsPaneContainer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -298,11 +414,14 @@
     <EmbeddedResource Include="Ribbon.resx">
       <DependentUpon>Ribbon.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ScenarioView\NumberValidationMessageBox.resx">
+      <DependentUpon>NumberValidationMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ScenarioView\ScenarioDetailPaneContainer.resx">
       <DependentUpon>ScenarioDetailPaneContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScenarioView\ScenarioPaneContainer.resx">
-      <DependentUpon>ScenarioPaneContainer.cs</DependentUpon>
+    <EmbeddedResource Include="SharedView\SharedPaneContainer.resx">
+      <DependentUpon>SharedPaneContainer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
@@ -325,7 +444,10 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="ScenarioCore\SIF-Frontend_classes.cd" />
+    <None Include="ScenarioView\ScenarioCore\SIF-Frontend_classes.cd" />
+    <None Include="SIF.Visualization.Excel_1_TemporaryKey.pfx" />
+    <None Include="SIF.Visualization.Excel_2_TemporaryKey.pfx" />
+    <None Include="SIF.Visualization.Excel_5_TemporaryKey.pfx" />
     <None Include="SIF.Visualization.Excel_TemporaryKey.pfx" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
@@ -336,7 +458,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="CellErrorInfo.xaml">
+    <Page Include="CellErrorInfo\CellErrorInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomInputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IgnoreView\IgnoreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LaterView\LaterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -345,10 +479,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ScenarioView\DefineCellsPane.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FindingsPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,6 +494,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SharedView\SharedPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SharedView\SharedResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SolvedView\SolvedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewCommon\ViolationTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewCommon\ViolationViewResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViolationsView\ViolationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons\input_clear.png" />
@@ -372,16 +526,58 @@
     <Resource Include="icons\output_clear.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\112_Plus_Grey_32x32_72.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\Delete_black_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\intermediate_clear.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons\magnifier_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\findings_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\scenario-details.png" />
+    <Resource Include="icons\scenarios.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\inspectionpane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\violations.png" />
+    <Resource Include="icons\later.png" />
+    <Resource Include="icons\solved.png" />
+    <Resource Include="icons\falsepositive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\violations\static.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\violations\sanity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\violations\dynamic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\violations\dynamic_unread.png" />
+    <Resource Include="icons\violations\sanity_unread.png" />
+    <Resource Include="icons\violations\static_unread.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\Delete_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\Edit.png" />
+    <Resource Include="icons\save.png" />
+    <Resource Include="icons\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\violations\empty.png" />
+    <Resource Include="icons\violations\plus.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -405,8 +601,8 @@
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
-        <Host Name="Excel" GeneratedCodeNamespace="SIF.Visualization.Excel" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        <Host Name="Excel" GeneratedCodeNamespace="SIF.Visualization.Excel" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="389ADA754790882542594BFD6B739766CC069A4D" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
       </FlavorProperties>
     </VisualStudio>
